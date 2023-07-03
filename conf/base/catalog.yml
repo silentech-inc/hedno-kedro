@@ -2,3 +2,203 @@
 #
 # Documentation for this file format can be found in "The Data Catalog"
 # Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+
+consumptions_test:
+  filepath: data/01_raw/Consumptions_TEST.csv
+  load_args:
+    date_format: "%Y-%m-%d"
+    dtype: {"BS_RATE": "string"}
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    parse_dates:
+      - "MEASUREMENT_DATE"
+    sep: "|"
+  type: pandas.CSVDataSet
+
+consumptions_train:
+  filepath: data/01_raw/Consumptions_TRAIN.csv
+  load_args:
+    date_format: "%Y-%m-%d"
+    dtype: {"BS_RATE": "string"}
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    parse_dates:
+      - "MEASUREMENT_DATE"
+    sep: "|"
+  type: pandas.CSVDataSet
+
+exceptions:
+  filepath: data/01_raw/test_exceptions.csv
+  load_args:
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
+
+powers:
+  filepath: data/01_raw/PARNO.csv
+  load_args:
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
+
+powerthefts:
+  filepath: data/01_raw/PowerThefts_TRAIN.csv
+  load_args:
+    date_format: "%Y-%m-%d"
+    #XXX Only file without easy PyArrow support.
+    #dtype_backend:
+
+    encoding: "utf8"
+
+    #NOTE: "pyarrow" engine fills NULLs in string columns with empty strings.
+    engine: "c"
+
+    header: 0
+    parse_dates:
+      - "HMANAF"
+    sep: "|"
+  type: pandas.CSVDataSet
+
+rates:
+  filepath: data/01_raw/BS_RATE.csv
+  load_args:
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
+
+records_test:
+  filepath: data/01_raw/Records_TEST.csv
+  load_args:
+    dtype: {"XRHSH": "string"}
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
+
+records_train:
+  filepath: data/01_raw/Records_TRAIN.csv
+  load_args:
+    dtype: {"XRHSH": "string"}
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
+
+representations_test:
+  filepath: data/01_raw/Representations_TEST.csv
+  load_args:
+    date_format: "%Y-%m-%d"
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+
+    #NOTE: "pyarrow" engine fills NULLs in string columns with empty strings.
+    engine: "c"
+
+    header: 0
+    parse_dates:
+      - "END_DATE"
+      - "START_DATE"
+    sep: "|"
+  type: pandas.CSVDataSet
+
+representations_train:
+  filepath: data/01_raw/Representations_TRAIN.csv
+  load_args:
+    date_format: "%Y-%m-%d"
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+
+    #NOTE: "pyarrow" engine fills NULLs in string columns with empty strings.
+    engine: "c"
+
+    header: 0
+    parse_dates:
+      - "END_DATE"
+
+    # START_DATE contains errors which need to be hotfixed before parse.
+    #  - "START_DATE"
+
+    sep: "|"
+  type: pandas.CSVDataSet
+
+requests_test:
+  filepath: data/01_raw/Requests_TEST.csv
+  load_args:
+    date_format: "%Y-%m-%d"
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    false_values:
+      - "incompl"
+    header: 0
+    parse_dates:
+      - "COMPLETION_DATE"
+      - "REQUEST_DATE"
+    sep: "|"
+    true_values:
+      - "compl"
+  type: pandas.CSVDataSet
+
+requests_train:
+  filepath: data/01_raw/Requests_TRAIN.csv
+  load_args:
+    date_format: "%Y-%m-%d"
+    dtype_backend: "pyarrow"
+    false_values:
+      - "incompl"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    parse_dates:
+      - "COMPLETION_DATE"
+      - "REQUEST_DATE"
+    sep: "|"
+    true_values:
+      - "compl"
+  type: pandas.CSVDataSet
+
+suppliers:
+  filepath: data/01_raw/SUPPLIER.csv
+  load_args:
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
+
+tests:
+  filepath: data/01_raw/Successors_TEST.csv
+  load_args:
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
+
+uses:
+  filepath: data/01_raw/XRHSH.csv
+  load_args:
+    dtype_backend: "pyarrow"
+    encoding: "utf8"
+    engine: "pyarrow"
+    header: 0
+    sep: "|"
+  type: pandas.CSVDataSet
