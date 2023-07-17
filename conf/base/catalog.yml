@@ -1,9 +1,6 @@
-# Here you can define all your data sets by using simple YAML syntax.
-#
-# Documentation for this file format can be found in "The Data Catalog"
-# Link: https://docs.kedro.org/en/stable/data/data_catalog.html
+# Raw Datasets
 
-consumptions_test:
+raw_consumptions_test:
   filepath: data/01_raw/Consumptions_TEST.csv
   load_args:
     date_format: "%Y-%m-%d"
@@ -17,7 +14,7 @@ consumptions_test:
     sep: "|"
   type: pandas.CSVDataSet
 
-consumptions_train:
+raw_consumptions_train:
   filepath: data/01_raw/Consumptions_TRAIN.csv
   load_args:
     date_format: "%Y-%m-%d"
@@ -31,7 +28,7 @@ consumptions_train:
     sep: "|"
   type: pandas.CSVDataSet
 
-exceptions:
+raw_exceptions:
   filepath: data/01_raw/test_exceptions.csv
   load_args:
     encoding: "utf8"
@@ -40,7 +37,7 @@ exceptions:
     sep: "|"
   type: pandas.CSVDataSet
 
-powers:
+raw_powers:
   filepath: data/01_raw/PARNO.csv
   load_args:
     dtype_backend: "pyarrow"
@@ -50,17 +47,18 @@ powers:
     sep: "|"
   type: pandas.CSVDataSet
 
-powerthefts:
+raw_powerthefts:
   filepath: data/01_raw/PowerThefts_TRAIN.csv
   load_args:
     date_format: "%Y-%m-%d"
+
     #XXX Only file without easy PyArrow support.
     #dtype_backend:
 
     encoding: "utf8"
 
     #NOTE: "pyarrow" engine fills NULLs in string columns with empty strings.
-    engine: "c"
+    #engine:
 
     header: 0
     parse_dates:
@@ -68,7 +66,7 @@ powerthefts:
     sep: "|"
   type: pandas.CSVDataSet
 
-rates:
+raw_rates:
   filepath: data/01_raw/BS_RATE.csv
   load_args:
     dtype_backend: "pyarrow"
@@ -78,10 +76,10 @@ rates:
     sep: "|"
   type: pandas.CSVDataSet
 
-records_test:
+raw_records_test:
   filepath: data/01_raw/Records_TEST.csv
   load_args:
-    dtype: {"XRHSH": "string"}
+    dtype: {"PARNO": "string", "XRHSH": "string"}
     dtype_backend: "pyarrow"
     encoding: "utf8"
     engine: "pyarrow"
@@ -89,10 +87,10 @@ records_test:
     sep: "|"
   type: pandas.CSVDataSet
 
-records_train:
+raw_records_train:
   filepath: data/01_raw/Records_TRAIN.csv
   load_args:
-    dtype: {"XRHSH": "string"}
+    dtype: {"PARNO": "string", "XRHSH": "string"}
     dtype_backend: "pyarrow"
     encoding: "utf8"
     engine: "pyarrow"
@@ -100,7 +98,7 @@ records_train:
     sep: "|"
   type: pandas.CSVDataSet
 
-representations_test:
+raw_representations_test:
   filepath: data/01_raw/Representations_TEST.csv
   load_args:
     date_format: "%Y-%m-%d"
@@ -117,7 +115,7 @@ representations_test:
     sep: "|"
   type: pandas.CSVDataSet
 
-representations_train:
+raw_representations_train:
   filepath: data/01_raw/Representations_TRAIN.csv
   load_args:
     date_format: "%Y-%m-%d"
@@ -137,7 +135,7 @@ representations_train:
     sep: "|"
   type: pandas.CSVDataSet
 
-requests_test:
+raw_requests_test:
   filepath: data/01_raw/Requests_TEST.csv
   load_args:
     date_format: "%Y-%m-%d"
@@ -155,7 +153,7 @@ requests_test:
       - "compl"
   type: pandas.CSVDataSet
 
-requests_train:
+raw_requests_train:
   filepath: data/01_raw/Requests_TRAIN.csv
   load_args:
     date_format: "%Y-%m-%d"
@@ -173,7 +171,7 @@ requests_train:
       - "compl"
   type: pandas.CSVDataSet
 
-suppliers:
+raw_suppliers:
   filepath: data/01_raw/SUPPLIER.csv
   load_args:
     dtype_backend: "pyarrow"
@@ -183,7 +181,7 @@ suppliers:
     sep: "|"
   type: pandas.CSVDataSet
 
-tests:
+raw_tests:
   filepath: data/01_raw/Successors_TEST.csv
   load_args:
     dtype_backend: "pyarrow"
@@ -193,7 +191,7 @@ tests:
     sep: "|"
   type: pandas.CSVDataSet
 
-uses:
+raw_uses:
   filepath: data/01_raw/XRHSH.csv
   load_args:
     dtype_backend: "pyarrow"
@@ -202,3 +200,81 @@ uses:
     header: 0
     sep: "|"
   type: pandas.CSVDataSet
+
+
+# Factored Datasets
+
+factored_consumptions:
+  filepath: data/02_intermediate/factored_consumptions.feather
+  load_args:
+    dtype_backend: "pyarrow"
+  type: pandas.FeatherDataSet
+
+factored_locations:
+  filepath: data/02_intermediate/factored_locations.feather
+  load_args:
+    dtype_backend: "pyarrow"
+  type: pandas.FeatherDataSet
+
+factored_powerthefts:
+  filepath: data/02_intermediate/factored_powerthefts.feather
+  load_args:
+    dtype_backend: "pyarrow"
+  type: pandas.FeatherDataSet
+
+factored_records:
+  filepath: data/02_intermediate/factored_records.feather
+  load_args:
+    dtype_backend: "pyarrow"
+  type: pandas.FeatherDataSet
+
+factored_representations:
+  filepath: data/02_intermediate/factored_representations.feather
+  load_args:
+    dtype_backend: "pyarrow"
+  type: pandas.FeatherDataSet
+
+factored_requests:
+  filepath: data/02_intermediate/factored_requests.feather
+  load_args:
+    dtype_backend: "pyarrow"
+  type: pandas.FeatherDataSet
+
+
+# Primary Datasets
+
+accounts:
+  filepath: data/03_primary/accounts.feather
+  type: pandas.FeatherDataSet
+
+meters:
+  filepath: data/03_primary/meters.feather
+  type: pandas.FeatherDataSet
+
+methods:
+  filepath: data/03_primary/methods.feather
+  type: pandas.FeatherDataSet
+
+places:
+  filepath: data/03_primary/places.feather
+  type: pandas.FeatherDataSet
+
+powers:
+  filepath: data/03_primary/powers.feather
+  type: pandas.FeatherDataSet
+
+rates:
+  filepath: data/03_primary/rates.feather
+  type: pandas.FeatherDataSet
+
+suppliers:
+  filepath: data/03_primary/suppliers.feather
+  type: pandas.FeatherDataSet
+
+tests:
+  filepath: data/03_primary/tests.feather
+  type: pandas.FeatherDataSet
+
+uses:
+  filepath: data/03_primary/uses.feather
+  type: pandas.FeatherDataSet
