@@ -60,14 +60,16 @@ def parse_powertheft_dates(powerthefts: pd.DataFrame) -> pd.DataFrame:
     return powerthefts
 
 
+IMPUTED_POWERTHEFT_DATE = "1985-1-1"
 def hotfix_powerthefts(powerthefts: pd.DataFrame) -> pd.DataFrame:
     return (
         powerthefts
-        .dropna(
-            how="any",
-            ignore_index=True,
-            subset=["DETECTION_DATE", "INITIAL_DETECTION_DATE"]
-        )
+
+        # If a date is missing, impute a really old date.
+        .fillna({
+            "INITIAL_DETECTION_DATE": IMPUTED_POWERTHEFT_DATE,
+            "DETECTION_DATE": IMPUTED_POWERTHEFT_DATE
+        })
     )
 
 
