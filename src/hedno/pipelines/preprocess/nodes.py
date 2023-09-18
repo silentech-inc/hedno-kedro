@@ -238,7 +238,7 @@ def preprocess_records(records: pd.DataFrame) -> pd.DataFrame:
         Preprocessed data, with `ACCT_CONTROL`, `ACCT_WGS84_X`, `ACCT_WGS84_Y`,
         `CONTRACT_CAPACITY`, `PARNO`, `SUCCESSOR`, `VOLTAGE`, and `XRHSH`
         renamed to `control`, `x`, `y`, `capacity`, `power_name`, `successor`,
-        `voltage`, and `use`, respectively. `voltage` is cast as category.
+        `voltage`, and `use`, respectively.
     """
     return (
         records
@@ -322,7 +322,11 @@ def preprocess_requests(requests: pd.DataFrame) -> pd.DataFrame:
             errors="raise",
         )
         .replace({"type": ""}, value="unknown")
-        .astype({"type": REQUEST_TYPE}, copy=False)
+
+        # NOTE: Category storage in Feather currently problematic. See:
+        # https://github.com/pandas-dev/pandas/issues/54392
+        # https://github.com/pandas-dev/pandas/issues/53011
+        # .astype({"type": REQUEST_TYPE}, copy=False)
     )
 
 
@@ -685,7 +689,16 @@ def factor_locations(factored_records_and_locations: pd.DataFrame) -> pd.DataFra
 
 
 def factor_records(factored_records_and_locations: pd.DataFrame) -> pd.DataFrame:
-    return factored_records_and_locations.drop(columns=["x", "y"])
+    return (
+        factored_records_and_locations
+        .drop(columns=["x", "y"])
+
+        # NOTE: Category storage in Feather currently problematic. See:
+        #       https://github.com/pandas-dev/pandas/issues/54392
+        #       https://github.com/pandas-dev/pandas/issues/53011
+        # Store `type` as pandas `string`, to circumvent Pyarrow bug.
+        .astype({"voltage": "string"}, copy=False)
+    )
 
 
 def factor_representations(
@@ -734,6 +747,13 @@ def factor_requests(
         requests
         .merge(accounts, how="inner", on="ACCT_NBR")
         .drop(columns=["ACCT_NBR"])
+
+        # NOTE: Category storage in Feather currently problematic. See:
+        #       https://github.com/pandas-dev/pandas/issues/54392
+        #       https://github.com/pandas-dev/pandas/issues/53011
+        # Store `type` as pandas `string`, to circumvent Pyarrow bug.
+        .astype({"type": "string"}, copy=False)
+
         .reindex(
             columns=[
                 "account_id",
