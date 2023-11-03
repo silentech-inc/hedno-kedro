@@ -27,23 +27,32 @@ To install them, run:
 pip install -r src/requirements.txt
 ```
 
-## How to run your Kedro pipeline
+## How to run the Kedro pipeline
 
-You can run your Kedro project with:
+You can run the Kedro project with:
 
 ```
 kedro run
 ```
 
-## How to test your Kedro project
-
-Have a look at the file `src/tests/test_run.py` for instructions on how to write your tests. You can run your tests as follows:
+This will execute the pipeline registered as `__default__` (see `src/hedno/pipeline_registry,py`), which can be a single pipeline, or multiple connected pipelines. In the current project there is only one pipeline registered, the `preprocess` pipeline. It can be explicitly run standalone as:
 
 ```
-kedro test
+kedro run --pipeline preprocess
 ```
 
-To configure the coverage threshold, go to the `.coveragerc` file.
+## How to visualise the Kedro pipeline
+
+Using [Kedro-Viz](https://github.com/kedro-org/kedro-viz) to interact with pipelines graphically is highly recommended. Install the add-on package by `pip install kedro-viz` and then run
+
+```
+kedro viz
+```
+
+Note that some errors in specifying the pipeline (e.g. non-unique node names, missing parametres, etc) will cause this command to fail, so it can be also used as a very rudimentary static test. The result of running the command in the current repository can be seen blow:
+
+![Viz](https://github.com/silentech-inc/hedno-kedro/blob/main/images/preprocess_pipeline.png)
+
 
 ## Explore the code using JupyterLab
 
